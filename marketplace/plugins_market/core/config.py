@@ -319,7 +319,17 @@ class Settings(BaseSettings):
         default="embedding",
         validation_alias=AliasChoices("MARKET_RETRIEVAL_SEARCH_METHOD", "RETRIEVAL_SEARCH_METHOD"),
     )
-    # 在线检索过滤阈值：卡掉低相关召回结果；可配置为 None 关闭
+    # 在线检索过滤阈值：卡掉低相关召回结果；绝对阈值未设置时关闭
+    retrieval_embedding_min_score: float | None = Field(
+        default=None,
+        ge=-1.0,
+        le=1.0,
+        allow_inf_nan=False,
+        validation_alias=AliasChoices(
+            "MARKET_RETRIEVAL_EMBEDDING_MIN_SCORE",
+            "RETRIEVAL_EMBEDDING_MIN_SCORE",
+        ),
+    )
     retrieval_embedding_relative_min_score: float | None = Field(
         default=0.9,
         ge=0.0,
@@ -329,12 +339,32 @@ class Settings(BaseSettings):
             "RETRIEVAL_EMBEDDING_RELATIVE_MIN_SCORE",
         ),
     )
+    retrieval_bm25_min_score: float | None = Field(
+        default=None,
+        ge=0.0,
+        allow_inf_nan=False,
+        validation_alias=AliasChoices(
+            "MARKET_RETRIEVAL_BM25_MIN_SCORE",
+            "RETRIEVAL_BM25_MIN_SCORE",
+        ),
+    )
     retrieval_bm25_min_query_term_matches: int = Field(
         default=0,
         ge=0,
         validation_alias=AliasChoices(
             "MARKET_RETRIEVAL_BM25_MIN_QUERY_TERM_MATCHES",
             "RETRIEVAL_BM25_MIN_QUERY_TERM_MATCHES",
+        ),
+    )
+    # RRF 融合时 BM25 的权重占比；向量权重为 1 - 此值
+    retrieval_rrf_bm25_weight: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        allow_inf_nan=False,
+        validation_alias=AliasChoices(
+            "MARKET_RETRIEVAL_RRF_BM25_WEIGHT",
+            "RETRIEVAL_RRF_BM25_WEIGHT",
         ),
     )
 

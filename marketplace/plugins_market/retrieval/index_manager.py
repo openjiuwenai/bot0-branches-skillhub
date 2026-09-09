@@ -132,8 +132,12 @@ class IndexManager:
                 config=SearchConfig(
                     top_k=top_k,
                     method=resolved_method,
+                    embedding_min_score=settings.retrieval_embedding_min_score,
                     embedding_relative_min_score=settings.retrieval_embedding_relative_min_score,
+                    bm25_min_score=settings.retrieval_bm25_min_score,
                     bm25_min_query_term_matches=settings.retrieval_bm25_min_query_term_matches,
+                    hybrid_bm25_weight=settings.retrieval_rrf_bm25_weight,
+                    hybrid_embedding_weight=1.0 - settings.retrieval_rrf_bm25_weight,
                 ),
             )
             if not cids:

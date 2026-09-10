@@ -491,17 +491,24 @@ def validate_agent_asset_layout(
     if hit:
         _dangerous(f"{hit[0]} 包含危险脚本内容（{hit[1]}）")
 
-    avatar = manifest.get("avatar")
-    if isinstance(avatar, str) and avatar.strip():
-        avatar_path = _safe_relative_path(avatar, "avatar", error=manifest_error)
-        if not _member_exists(members, f"{payload_prefix}{avatar_path}"):
-            _invalid(manifest_error, f"manifest.avatar 指向的文件不存在：{avatar_path}")
-
-    icon_path = f"{outer}/icon.png" if outer else "icon.png"
     icon_bytes = b""
-    if icon_path in members:
-        icon_bytes = safe_read_zip_member(zf, members[icon_path], counter)
-        validate_png_icon_bytes(icon_bytes, path=icon_path)
+    if runtime_type == RUNTIME_AGENT_TEMPLATE:
+        avatar = manifest.get("avatar")
+        if isinstance(avatar, str) and avatar.strip():
+            avatar_path = _safe_relative_path(avatar, "avatar", error=manifest_error)
+            avatar_member = f"{payload_prefix}{avatar_path}"
+            if not _member_exists(members, avatar_member):
+                _invalid(manifest_error, f"manifest.avatar 指向的文件不存在：{avatar_path}")
+            if avatar_path.lower().endswith(".png"):
+                raw_icon = safe_read_zip_member(zf, members[avatar_member], counter)
+                validate_png_icon_bytes(raw_icon, path=avatar_member)
+                icon_bytes = raw_icon
+
+    if not icon_bytes:
+        icon_path = f"{outer}/icon.png" if outer else "icon.png"
+        if icon_path in members:
+            icon_bytes = safe_read_zip_member(zf, members[icon_path], counter)
+            validate_png_icon_bytes(icon_bytes, path=icon_path)
 
     tags = localized_manifest_tags(manifest.get("tags"))
     _validate_market_fields(display_name or asset_name, short_desc, tags)

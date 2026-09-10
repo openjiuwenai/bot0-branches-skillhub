@@ -5,7 +5,7 @@
 - 本地部署和 Docker 一键部署：将 `.env.example` 复制为 `.env` 后按需修改。
 - K8s 部署：修改 [`docker/k8s/marketplace-config.yaml`](../../../../../docker/k8s/marketplace-config.yaml) 中的在线体验配置。
 
-只有启用在线体验时才需要设置这些变量；基础 SkillHub 部署可保持默认关闭。
+只有启用在线体验时才需要设置这些变量；基础 openJiuwen Agentic Hub 部署可保持默认关闭。
 
 ## 配置边界
 

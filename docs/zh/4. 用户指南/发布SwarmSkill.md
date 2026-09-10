@@ -63,7 +63,7 @@ roles:
 ## 发布步骤
 
 1. 准备 SwarmSkill 目录和 `SKILL.md` 角色声明
-2. 登录 SkillHub 并点击「+ 发布」
+2. 登录 openJiuwen Agentic Hub 并点击「+ 发布」
 3. 选择 Skill 类型，填写名称、显示名、版本
 4. 上传包含 `SKILL.md` 的目录
 5. 提交后在个人中心查看发布结果和审核状态

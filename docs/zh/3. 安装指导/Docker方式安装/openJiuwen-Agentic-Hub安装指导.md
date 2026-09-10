@@ -1,8 +1,8 @@
 # Docker 方式安装指导
 
-本文说明如何用 Docker Desktop 自行构建镜像并运行 SkillHub 完整服务。服务包含 Backend 和 Frontend 两个容器：Backend 是 marketplace 后端；Frontend 是前端 Web，由 Nginx 托管静态资源并反向代理 API。依赖的 MySQL、MinIO 可以用 Docker 容器，也可以用宿主机上已有的。步骤以 **Windows / PowerShell** 为例。
+本文说明如何用 Docker Desktop 自行构建镜像并运行 openJiuwen Agentic Hub 完整服务。服务包含 Backend 和 Frontend 两个容器：Backend 是 marketplace 后端；Frontend 是前端 Web，由 Nginx 托管静态资源并反向代理 API。依赖的 MySQL、MinIO 可以用 Docker 容器，也可以用宿主机上已有的。步骤以 **Windows / PowerShell** 为例。
 
-> 本文适合需要复用宿主机已有 MySQL / MinIO、或希望手动控制各容器启动方式的情况。宿主机没有这些依赖、想一条命令启动全套的，见 [Docker 一键部署](./SkillHub安装指导-一键部署.md)；生产和多副本部署见 [K8s 方式安装指导](../K8s方式安装/SkillHub安装指导.md)。
+> 本文适合需要复用宿主机已有 MySQL / MinIO、或希望手动控制各容器启动方式的情况。宿主机没有这些依赖、想一条命令启动全套的，见 [Docker 一键部署](./openJiuwen-Agentic-Hub安装指导-一键部署.md)；生产和多副本部署见 [K8s 方式安装指导](../K8s方式安装/openJiuwen-Agentic-Hub安装指导.md)。
 
 **目标**：Backend 与 Frontend 容器启动后，浏览器与本机 CLI 能正常调用 API，Skill 包能正常下载。下载分两步：服务端返回预签名 URL，客户端再直连对象存储。
 
@@ -36,7 +36,7 @@ git clone https://gitcode.com/openJiuwen/skillhub.git
 cd skillhub
 ```
 
-后续命令默认从 **SkillHub 仓库根目录**开始执行。
+后续命令默认从 **openJiuwen Agentic Hub 仓库根目录**开始执行。
 
 ## 3 准备依赖服务
 
@@ -490,8 +490,8 @@ curl --location 'http://localhost:8100/api/v1/plugins'
 
 | 文档 | 说明 |
 |------|------|
-| [TeamSkillsHub 接口参考](../../7.%20API参考/TeamSkillsHub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
-| [TeamSkillsHub API](../../7.%20API参考/TeamSkillsHub.md) | OpenAPI YAML 与错误码速查 |
+| [openJiuwen Agentic Hub 接口参考](../../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
+| [openJiuwen Agentic Hub API](../../7.%20API参考/openJiuwen-Agentic-Hub.md) | OpenAPI YAML 与错误码速查 |
 | [ClawHub 兼容层](../../7.%20API参考/ClawHub兼容层.md) | ClawHub CLI 协议适配 |
 | [OAuth 登录配置](../../6.%20运维指南/基础部署/OAuth登录配置.md) | GitCode / GitHub OAuth 完整配置 |
 | [故障排查](../../6.%20运维指南/基础部署/故障排查.md) | 更多部署问题排查 |

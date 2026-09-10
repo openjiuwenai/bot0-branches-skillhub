@@ -1,6 +1,6 @@
 # Agent 资产列表与下载接口
 
-面向 SkillHub 前端、WorkSwarm 等集成方。完整端点说明见 [TeamSkillsHub 接口参考](./TeamSkillsHub-接口参考.md)。
+面向 openJiuwen Agentic Hub 前端、WorkSwarm 等集成方。完整端点说明见 [openJiuwen Agentic Hub 接口参考](./openJiuwen-Agentic-Hub-接口参考.md)。
 
 **Base URL：** `/api/v1`
 

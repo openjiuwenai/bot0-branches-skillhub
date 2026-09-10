@@ -1,18 +1,19 @@
 # Changelog
 
-本文件记录 SkillHub 的版本迭代、新功能、变更与兼容性说明。  
+本文件记录 openJiuwen Agentic Hub 的版本迭代、新功能、变更与兼容性说明。  
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
 ## [Unreleased]
 
 ### Added
 
-- [TeamSkillsHub 接口参考](docs/zh/7.%20API参考/TeamSkillsHub-接口参考.md)：按模块组织的对外 API 文档（端点总览、curl 示例、可见性/审核状态表）
+- [openJiuwen Agentic Hub 接口参考](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md)：按模块组织的对外 API 文档（端点总览、curl 示例、可见性/审核状态表）
 - 用户文档体系：新用户入门、前端操作手册、角色与权限、场景化指引与 FAQ、环境配置说明（使用者）
 - 根目录 `CHANGELOG.md` 持续记录版本变更
 
 ### Changed
 
+- 产品展示名与文档由 SwarmSkillsHub / SkillHub / TeamSkillsHub 统一为 **openJiuwen Agentic Hub**（仓库目录、Docker/K8s 内部名、`swarmskill` 类型与官方域名暂不改）
 - 官方托管域名由 `teamskills.openjiuwen.com` 更名为 `swarmskills.openjiuwen.com`（文档与默认市场地址已同步）
 - 市场与发布展示名：`agent-plugin` 为**插件**、`agent-mcp` 为**连接器**、`agent-template` 为**专家/专家团**（Tab / 发布类型顺序：插件、连接器、专家/专家团）；发布成功提示按所选类型显示
 - **Git 源接入**
@@ -28,7 +29,7 @@
 
 ### Added
 
-- **Web 前端（Swarm Skills Hub）**
+- **Web 前端（openJiuwen Agentic Hub）**
   - 首页 Skill / Swarm Skill 市场：分类、搜索、网格/列表视图、详情与下载
   - 发布抽屉：Skill 目录打包上传、模板下载、版本与 changelog
   - 个人中心：我的 Skills、收藏、点赞、Git 源同步
@@ -48,7 +49,7 @@
 
 - **部署**
   - 本地安装与 Docker（Windows）文档
-  - TeamSkillsHub OpenAPI 接口文档
+  - openJiuwen Agentic Hub OpenAPI 接口文档
 
 ### Security
 
@@ -70,7 +71,7 @@
 ### 兼容性
 
 - **数据库**：升级时 marketplace 启动会自动迁移 schema；建议在维护窗口操作
-- **API**：客户端请优先使用 `detail.error_code` 解析错误；OpenAPI 见 `docs/zh/7. API参考/TeamSkillsHub.md`
+- **API**：客户端请优先使用 `detail.error_code` 解析错误；OpenAPI 见 `docs/zh/7. API参考/openJiuwen-Agentic-Hub.md`
 - **CLI**：与市场 API 版本保持一致部署，避免跨大版本混用
 
 ---

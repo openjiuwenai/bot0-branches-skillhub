@@ -34,8 +34,7 @@
   },
   "plugins": {
     "title": "插件管理",
-    "marketTitle": "Swarm Skills Hub",
-    "marketHeroSuffix": "你的团队技能中心",
+    "marketTitle": "openJiuwen Agentic Hub",
     "marketSubtitleLead": "维度升级 · 多智协同，",
     "marketSubtitleTail": "{{typeLabel}} 驱动 Coordination Engineering 新变革",
     "marketSubtitleCountSuffix": " 个",
@@ -687,7 +686,7 @@
     }
   },
   "appHeader": {
-    "brand": "SwarmSkillsHub",
+    "brand": "openJiuwen Agentic Hub",
     "publish": "发布",
     "profile": "个人中心",
     "groups": "组群管理",
@@ -857,6 +856,6 @@
     "columnDocs": "文档",
     "columnCommunity": "社区",
     "columnMore": "更多",
-    "copyright": "SkillHub / Swarm Skills Hub · Apache License 2.0 · {{year}}"
+    "copyright": "openJiuwen Agentic Hub · Apache License 2.0 · {{year}}"
   }
 }

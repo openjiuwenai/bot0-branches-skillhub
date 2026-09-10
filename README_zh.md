@@ -1,4 +1,4 @@
-# SkillHub
+# openJiuwen Agentic Hub
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.11.4-blue.svg)](marketplace/pyproject.toml)
@@ -6,7 +6,7 @@
 
 **English**: [README.md](README.md)
 
-**SkillHub**（本仓库）是 openJiuwen 生态中的 **Skill 托管与分发** 开源实现，供团队在自有环境中部署使用。  
+**openJiuwen Agentic Hub**（本仓库）是 openJiuwen 生态中的 **Skill 托管与分发** 开源实现，供团队在自有环境中部署使用。  
 **ClawHub 兼容协议**：可选启用，便于与既有 **ClawHub** 生态下的 CLI 与工具链对接（路径与语义以实现为准）。
 
 ## 目录
@@ -75,7 +75,7 @@ flowchart LR
 
 ### 2. 自建：最短路径（本地开发）
 
-前置条件：已准备好 **MySQL**（须预先建库）、**S3 兼容存储**（如 MinIO）、**鉴权服务**可达。详见 [本地安装指导](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md)。
+前置条件：已准备好 **MySQL**（须预先建库）、**S3 兼容存储**（如 MinIO）、**鉴权服务**可达。详见 [本地安装指导](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md)。
 
 ```powershell
 # 在仓库根目录
@@ -99,15 +99,15 @@ npm install
 npm run dev
 ```
 
-- 开发服默认 **9002**（以终端输出为准）；`BACKEND_PORT` 应对应后端的 `STORE_PORT`；`BACKEND_URL` 须填写前端进程可访问的后端地址（本机开发通常为 `127.0.0.1`），不要照抄后端监听地址 `STORE_HOST`（尤其是 `0.0.0.0` 这类通配地址）。详细说明见 [本地安装指导 §6](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md)。
+- 开发服默认 **9002**（以终端输出为准）；`BACKEND_PORT` 应对应后端的 `STORE_PORT`；`BACKEND_URL` 须填写前端进程可访问的后端地址（本机开发通常为 `127.0.0.1`），不要照抄后端监听地址 `STORE_HOST`（尤其是 `0.0.0.0` 这类通配地址）。详细说明见 [本地安装指导 §6](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md)。
 
 ### 3. 自建：Docker
 
-参阅 [Docker 方式安装（Windows）](docs/zh/3.%20安装指导/Docker方式安装/SkillHub安装指导.md)（含后端与前端镜像构建）。
+参阅 [Docker 方式安装（Windows）](docs/zh/3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导.md)（含后端与前端镜像构建）。
 
 ### 4. API 与 CLI
 
-- **HTTP API**：[TeamSkillsHub 接口参考](docs/zh/7.%20API参考/TeamSkillsHub-接口参考.md)（推荐）· [OpenAPI YAML](docs/zh/7.%20API参考/TeamSkillsHub.md)
+- **HTTP API**：[openJiuwen Agentic Hub 接口参考](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md)（推荐）· [OpenAPI YAML](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub.md)
 - **CLI**：[`cli/README.md`](cli/README.md)
 
 ### 5. 生态与全栈实践
@@ -131,16 +131,16 @@ npm run dev
 
 | 主题 | 链接 |
 |------|------|
-| 本地安装（Windows 为主） | [安装指导](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md) |
-| Docker 安装（Windows） | [Docker 方式安装](docs/zh/3.%20安装指导/Docker方式安装/SkillHub安装指导.md) |
-| 市场 API（OpenAPI） | [TeamSkillsHub.md](docs/zh/7.%20API参考/TeamSkillsHub.md) |
-| 市场 API 接口参考（推荐） | [TeamSkillsHub-接口参考.md](docs/zh/7.%20API参考/TeamSkillsHub-接口参考.md) |
+| 本地安装（Windows 为主） | [安装指导](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md) |
+| Docker 安装（Windows） | [Docker 方式安装](docs/zh/3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导.md) |
+| 市场 API（OpenAPI） | [openJiuwen-Agentic-Hub.md](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub.md) |
+| 市场 API 接口参考（推荐） | [openJiuwen-Agentic-Hub-接口参考.md](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) |
 | CLI | [cli/README.md](cli/README.md) |
 | 贡献说明 | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## 安全
 
-若将 SkillHub / marketplace **部署在公网或不受信任的网络**中，请务必在上线前评估鉴权、对象存储密钥、系统令牌与兼容层暴露面等风险，并通过网关、网络策略与最小权限采取防护措施。
+若将 openJiuwen Agentic Hub / marketplace **部署在公网或不受信任的网络**中，请务必在上线前评估鉴权、对象存储密钥、系统令牌与兼容层暴露面等风险，并通过网关、网络策略与最小权限采取防护措施。
 
 **报告漏洞**：见 [SECURITY.md](SECURITY.md)。
 
@@ -154,7 +154,7 @@ npm run dev
 
 ---
 
-SkillHub — 让 Skill 在 openJiuwen 生态中更易分发与复用。
+openJiuwen Agentic Hub — 让 Skill 在 openJiuwen 生态中更易分发与复用。
 
 本产品仅作为流程编排工具，不包含 AI 模型能力；用户在连接 AI 模型用于特定业务场景时，需自行承担欧盟 AI 法案等相关合规义务。
 

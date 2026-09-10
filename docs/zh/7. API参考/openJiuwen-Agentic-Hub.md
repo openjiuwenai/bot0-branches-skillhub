@@ -1,6 +1,6 @@
-# TeamSkillsHub API（OpenAPI）
+# openJiuwen Agentic Hub API（OpenAPI）
 
-> **推荐阅读：[TeamSkillsHub 接口参考](./TeamSkillsHub-接口参考.md)** — 按模块组织的对外 API 说明，含端点总览、curl 示例、可见性/审核状态表。
+> **推荐阅读：[openJiuwen Agentic Hub 接口参考](./openJiuwen-Agentic-Hub-接口参考.md)** — 按模块组织的对外 API 说明，含端点总览、curl 示例、可见性/审核状态表。
 > 本文档保留 **错误码速查** 与 **OpenAPI 3.1 YAML**（Swagger / codegen）。
 
 ## 范围说明
@@ -35,7 +35,7 @@
 
 ## 接口规范文档
 
-**详细接口参考（按模块、含请求示例）** → [TeamSkillsHub-接口参考.md](./TeamSkillsHub-接口参考.md)
+**详细接口参考（按模块、含请求示例）** → [openJiuwen-Agentic-Hub-接口参考.md](./openJiuwen-Agentic-Hub-接口参考.md)
 
 下面保留 **模块速览表** 便于检索；字段级定义与 codegen 仍以文末 **OpenAPI YAML** 为准。
 
@@ -226,9 +226,9 @@
 ```yaml
 openapi: 3.1.0
 info:
-  title: TeamSkillsHub API
+  title: openJiuwen Agentic Hub API
   description: |
-    TeamSkillsHub 市场原生 API。
+    openJiuwen Agentic Hub 市场原生 API。
     接口分类、环境变量与鉴权说明请参阅本文档「范围说明」章节。
   version: 1.0.0
 servers:

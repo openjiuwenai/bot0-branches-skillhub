@@ -1,6 +1,6 @@
 # Agent 资产
 
-SkillHub 市场除 Skill / SwarmSkill 外，支持三类 JiuwenSwarm Agent 资产。复用同一套发布、列表、详情与下载 API，通过 `plugin_type` / `asset_type` 区分。
+openJiuwen Agentic Hub 市场除 Skill / SwarmSkill 外，支持三类 JiuwenSwarm Agent 资产。复用同一套发布、列表、详情与下载 API，通过 `plugin_type` / `asset_type` 区分。
 
 ## 类型对照
 
@@ -28,7 +28,7 @@ SkillHub 市场除 Skill / SwarmSkill 外，支持三类 JiuwenSwarm Agent 资�
 - 静态安全扫描：manifest 引用的 `mcp.json` 与包内脚本不得含危险命令。
 - 市场图标：专家/专家团优先内层 `manifest.avatar`（PNG，如 `avatars/avatar.png`），否则外层 `<outer>/icon.png`；插件无头像，`icon_uri` 为空；连接器见下文 `manifest.icon`。Hub 上传为版本目录 `icon.png`，列表与详情返回 `icon_uri`。无图标时字段为空，不写占位图、不塞 ZIP 下载链接。
 
-完整字段规范见产品侧《Agent资产组成文件说明》；下文为 **SkillHub 发布校验**要点。
+完整字段规范见产品侧《Agent资产组成文件说明》；下文为 **openJiuwen Agentic Hub 发布校验**要点。
 
 ## Hub 校验原则
 
@@ -147,4 +147,4 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 ## 相关文档
 
 - [Agent 资产列表与下载接口](../7.%20API参考/Agent资产列表与下载接口.md)
-- [TeamSkillsHub 接口参考](../7.%20API参考/TeamSkillsHub-接口参考.md)
+- [openJiuwen Agentic Hub 接口参考](../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md)

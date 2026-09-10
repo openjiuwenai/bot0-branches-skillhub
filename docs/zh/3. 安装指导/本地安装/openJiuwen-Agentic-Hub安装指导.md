@@ -1,8 +1,8 @@
 # 本地安装指导
 
-本文说明如何在本地安装并启动 **marketplace**，即 SkillHub 市场服务。步骤以 **Windows / PowerShell** 为例；Linux / macOS 可将路径与激活命令替换为对应写法，例如 `source .venv/bin/activate`。
+本文说明如何在本地安装并启动 **marketplace**，即 openJiuwen Agentic Hub 市场服务。步骤以 **Windows / PowerShell** 为例；Linux / macOS 可将路径与激活命令替换为对应写法，例如 `source .venv/bin/activate`。
 
-> 本地安装适合开发调试。不想在本地安装 MySQL、Node.js 等依赖、只想快速跑起来的，见 [Docker 一键部署](../Docker方式安装/SkillHub安装指导-一键部署.md)。
+> 本地安装适合开发调试。不想在本地安装 MySQL、Node.js 等依赖、只想快速跑起来的，见 [Docker 一键部署](../Docker方式安装/openJiuwen-Agentic-Hub安装指导-一键部署.md)。
 
 ## 1 环境要求
 
@@ -24,7 +24,7 @@ git clone https://gitcode.com/openJiuwen/skillhub.git
 cd skillhub
 ```
 
-后续命令默认从 **SkillHub 仓库根目录**开始执行。
+后续命令默认从 **openJiuwen Agentic Hub 仓库根目录**开始执行。
 
 ## 3 准备依赖服务和账号
 
@@ -378,8 +378,8 @@ curl -sS -X POST "http://127.0.0.1:8100/api/v1/recommend" \
 
 | 文档 | 说明 |
 |------|------|
-| [TeamSkillsHub 接口参考](../../7.%20API参考/TeamSkillsHub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
+| [openJiuwen Agentic Hub 接口参考](../../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
 | [推荐系统 API](../../7.%20API参考/推荐系统API.md) | 个性化推荐 HTTP 接口 |
-| [TeamSkillsHub API](../../7.%20API参考/TeamSkillsHub.md) | OpenAPI YAML 与错误码速查 |
+| [openJiuwen Agentic Hub API](../../7.%20API参考/openJiuwen-Agentic-Hub.md) | OpenAPI YAML 与错误码速查 |
 | [ClawHub 兼容层](../../7.%20API参考/ClawHub兼容层.md) | ClawHub CLI 协议适配 |
 | [用户指南索引](../../4.%20用户指南/README.md) | 终端用户操作与 FAQ |

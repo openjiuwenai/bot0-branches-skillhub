@@ -1,6 +1,6 @@
-﻿# jiuwen-swarmskill（TeamSkills 命令行工具）
+# jiuwen-swarmskill（openJiuwen Agentic Hub 命令行工具）
 
-面向 TeamSkills Hub 的命令行工具：在本地生成与校验 `skill/swarmskill` 目录、打包上传、检索与安装。**PyPI 发行名与安装后的入口命令为 `jiuwen-swarmskill`**（`pip install jiuwen-swarmskill`）。本仓库内 Python 包目录名为 **`jiuwen_swarmskill/`**（下划线），与发行名中的连字符不同，属刻意约定。
+面向 openJiuwen Agentic Hub 的命令行工具：在本地生成与校验 `skill/swarmskill` 目录、打包上传、检索与安装。**PyPI 发行名与安装后的入口命令为 `jiuwen-swarmskill`**（`pip install jiuwen-swarmskill`）。本仓库内 Python 包目录名为 **`jiuwen_swarmskill/`**（下划线），与发行名中的连字符不同，属刻意约定。
 
 > **分发说明**：当前建议从本仓库源码安装（见第 2 节）。后续发布 PyPI 后，可直接 `pip install jiuwen-swarmskill`。
 
@@ -71,7 +71,7 @@ CLI 仅读取**当前进程**的环境变量（`os.environ`），不会自动读
 
 | 变量 | 作用 |
 |------|------|
-| `JIUWEN_TEAMSKILLS_MARKET_URL` | TeamSkills 市场根 URL（不含 `/api/v1/...`） |
+| `JIUWEN_TEAMSKILLS_MARKET_URL` | openJiuwen Agentic Hub 市场根 URL（不含 `/api/v1/...`） |
 | `OPENJIUWEN_MARKET_URL` | 兼容变量；与上项二选一 |
 | `OPENJIUWEN_USER_TOKEN` | 用户 Bearer Token（用于 `publish` / `delete`） |
 | `OPENJIUWEN_SYSTEM_TOKEN` | 系统管理员 Token（`X-System-Token`，用于 `publish` / `delete` / `skill-import`） |

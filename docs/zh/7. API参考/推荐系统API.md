@@ -9,7 +9,7 @@
   - 或有效 `X-System-Token: <SYSTEM_ADMIN_TOKEN>`（受信任服务代调）
   - 缺头、Bearer 无效/过期、System Token 无效、两种凭证同时传：视为匿名，走 Redis 下载量 TopK 兜底（`source=topk_install`），**不 401**
 
-市场 Web 列表侧的「推荐精选」（`GET /api/v1/plugins?order_by=recommend`，不带 `category_id`）见 [TeamSkillsHub 接口参考](./TeamSkillsHub-接口参考.md)。列表与 POST 共用同一套召回引擎；POST 在召回后走与列表相同的市场过滤与卡片补全。POST 为可选鉴权。
+市场 Web 列表侧的「推荐精选」（`GET /api/v1/plugins?order_by=recommend`，不带 `category_id`）见 [openJiuwen Agentic Hub 接口参考](./openJiuwen-Agentic-Hub-接口参考.md)。列表与 POST 共用同一套召回引擎；POST 在召回后走与列表相同的市场过滤与卡片补全。POST 为可选鉴权。
 
 ---
 

@@ -1,6 +1,6 @@
 # 在线体验
 
-在线体验是 SkillHub 的可选能力，用于在浏览器中直接试用已通过审核的 Skill。基础 SkillHub 部署不需要启用在线体验。
+在线体验是 openJiuwen Agentic Hub 的可选能力，用于在浏览器中直接试用已通过审核的 Skill。基础 openJiuwen Agentic Hub 部署不需要启用在线体验。
 
 ## 组件组成
 
@@ -30,4 +30,4 @@
 
 ## 启用顺序
 
-启用步骤（镜像构建、LLM 配置、Secret、开关与验证）见 [K8s 方式安装指导](../../../3.%20安装指导/K8s方式安装/SkillHub安装指导.md) 第 9.4 节。
+启用步骤（镜像构建、LLM 配置、Secret、开关与验证）见 [K8s 方式安装指导](../../../3.%20安装指导/K8s方式安装/openJiuwen-Agentic-Hub安装指导.md) 第 9.4 节。

@@ -1,6 +1,6 @@
 # Redis / DCS 与 MinIO / OBS 配置切换说明
 
-SkillHub marketplace（含推荐链路）通过 **环境变量** 在本地组件与华为云托管服务之间切换。协议兼容，无需改业务代码。
+openJiuwen Agentic Hub marketplace（含推荐链路）通过 **环境变量** 在本地组件与华为云托管服务之间切换。协议兼容，无需改业务代码。
 
 ## 1. 缓存：Redis ↔ DCS
 

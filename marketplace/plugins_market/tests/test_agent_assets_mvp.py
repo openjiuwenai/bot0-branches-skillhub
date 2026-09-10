@@ -26,6 +26,8 @@ def _build_wrapped_zip(
     name: str,
     runtime_type: str,
     inner_files: dict[str, str | bytes],
+    *,
+    outer_files: dict[str, str | bytes] | None = None,
 ) -> bytes:
     plugin_yaml = yaml.safe_dump(
         {
@@ -41,6 +43,10 @@ def _build_wrapped_zip(
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w") as zf:
         zf.writestr(f"{name}/plugin.yaml", plugin_yaml)
+        for relative, content in (outer_files or {}).items():
+            if isinstance(content, str):
+                content = content.encode("utf-8")
+            zf.writestr(f"{name}/{relative}", content)
         prefix = f"{name}/{name}/"
         for relative, content in inner_files.items():
             if isinstance(content, str):
@@ -503,3 +509,116 @@ def test_market_assets_unique_index_scoped_by_asset_type() -> None:
         if constraint.name
     }
     assert "uk_publisher_asset_type_name" in constraint_names
+
+
+def test_agent_template_extracts_manifest_avatar_png() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(avatar="avatars/avatar.png"),
+            "persona/coach.md": "# Persona",
+            "avatars/avatar.png": _MIN_PNG,
+        },
+    )
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == _MIN_PNG
+
+
+def test_agent_plugin_ignores_manifest_avatar() -> None:
+    content = _build_wrapped_zip(
+        "wellness-plugin",
+        "agent-plugin",
+        {
+            "manifest.json": _plugin_manifest(avatar="avatars/avatar.png"),
+            "tools/tool.py": "def run():\n    return True\n",
+            "avatars/avatar.png": _MIN_PNG,
+        },
+    )
+    result = _validate_plugin(content, "wellness-plugin")
+    assert result["icon_bytes"] == b""
+
+
+def test_agent_template_falls_back_to_outer_icon_png() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(),
+            "persona/coach.md": "# Persona",
+        },
+        outer_files={"icon.png": _MIN_PNG},
+    )
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == _MIN_PNG
+
+
+def test_agent_template_prefers_manifest_avatar_over_outer_icon() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(avatar="avatars/avatar.png"),
+            "persona/coach.md": "# Persona",
+            "avatars/avatar.png": _MIN_PNG,
+        },
+        outer_files={"icon.png": b"not-a-png"},
+    )
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == _MIN_PNG
+
+
+def test_agent_template_without_avatar_or_icon_has_empty_icon_bytes() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(),
+            "persona/coach.md": "# Persona",
+        },
+    )
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == b""
+
+
+def test_agent_template_non_png_avatar_does_not_set_icon_bytes() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(avatar="avatars/avatar.jpg"),
+            "persona/coach.md": "# Persona",
+            "avatars/avatar.jpg": b"jpeg-bytes",
+        },
+    )
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == b""
+
+
+def test_agent_template_rejects_missing_avatar_file() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(avatar="avatars/avatar.png"),
+            "persona/coach.md": "# Persona",
+        },
+    )
+    with pytest.raises(PublishError) as exc_info:
+        _validate_template(content, "coach")
+    assert "manifest.avatar" in exc_info.value.detail["message"]
+
+
+def test_agent_template_rejects_invalid_avatar_png() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(avatar="avatars/avatar.png"),
+            "persona/coach.md": "# Persona",
+            "avatars/avatar.png": b"not-a-png",
+        },
+    )
+    with pytest.raises(PublishError) as exc_info:
+        _validate_template(content, "coach")
+    assert "PNG" in exc_info.value.detail["message"]

@@ -26,7 +26,7 @@ SkillHub 市场除 Skill / SwarmSkill 外，支持三类 JiuwenSwarm Agent 资�
 - Agent 包装包：`plugin_version` 须与内层 `manifest.json.version` 一致，否则 `400 invalid_version`。
 - 路径均相对内层包根，不得含 `..` 或绝对路径。
 - 静态安全扫描：manifest 引用的 `mcp.json` 与包内脚本不得含危险命令。
-- 市场外层图标：`<outer>/icon.png`（PNG，可选），用于 plugin/template 列表展示。
+- 市场图标：专家/专家团优先内层 `manifest.avatar`（PNG，如 `avatars/avatar.png`），否则外层 `<outer>/icon.png`；插件无头像，`icon_uri` 为空；连接器见下文 `manifest.icon`。Hub 上传为版本目录 `icon.png`，列表与详情返回 `icon_uri`。无图标时字段为空，不写占位图、不塞 ZIP 下载链接。
 
 完整字段规范见产品侧《Agent资产组成文件说明》；下文为 **SkillHub 发布校验**要点。
 
@@ -130,7 +130,7 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 
 - `integration.type` 须与 `mcp.json` 内容一致（stdio / remote）。
 - `mcp.json` / `cli.json` 中 `${VAR}` 占位符须在 `token-schema.json` 有对应项（`cli-oauth` 除外）。
-- MCP 图标由 manifest `icon` 引用 PNG；Hub 上传后存为市场 `icon.png`，详情返回 `icon_uri`。
+- MCP 图标由 manifest `icon` 引用 PNG；Hub 上传后存为市场 `icon.png`，列表与详情返回 `icon_uri`。
 - **不支持** `icon.svg`；**不支持**无 `manifest.json` 的旧包。
 
 ## 常见错误码

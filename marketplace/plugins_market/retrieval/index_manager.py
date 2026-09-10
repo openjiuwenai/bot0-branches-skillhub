@@ -167,7 +167,9 @@ class IndexManager:
                     details=json.dumps({
                         **detail, "relative_threshold": relative_floor,
                         "effective_min_score": max(floors) if floors else None,
-                        "score_filter_removed_count": truncation.get("initial_count", 0) - truncation.get("kept_count", 0),
+                        "score_filter_removed_count": (
+                            truncation.get("initial_count", 0) - truncation.get("kept_count", 0)
+                        ),
                         "top_k_removed_count": truncation.get("kept_count", 0) - detail.get("hit_count", 0),
                     }, ensure_ascii=False),
                 )
@@ -181,15 +183,18 @@ class IndexManager:
                     asset_ids.append(aid)
             if cids and not asset_ids:
                 logger.debug("IndexManager.search: %d CIDs but 0 mapped to asset_ids (group=%s)", len(cids), group)
+            logged_fields = (
+                "rank", "choice_id", "resolved_payload", "source", "score", "fusion_score", "source_ranks",
+            )
+            logged_records = []
+            for record in result.candidate_records:
+                logged_record = {key: record.get(key) for key in logged_fields}
+                logged_record["asset_id"] = cid_map.get(record.get("resolved_payload"))
+                logged_records.append(logged_record)
             logger.info(
                 "retrieval_result", group=group, keyword=repr(query), method=result.method,
                 elapsed_ms=result.elapsed_ms, asset_ids=asset_ids,
-                details=json.dumps([
-                    {**{key: record.get(key) for key in (
-                        "rank", "choice_id", "resolved_payload", "source", "score", "fusion_score", "source_ranks",
-                    )}, "asset_id": cid_map.get(record.get("resolved_payload"))}
-                    for record in result.candidate_records
-                ], ensure_ascii=False),
+                details=json.dumps(logged_records, ensure_ascii=False),
             )
             return asset_ids
         except Exception as exc:

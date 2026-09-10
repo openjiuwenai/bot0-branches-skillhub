@@ -13,7 +13,7 @@ from indexing.embedding.index import EmbeddingIndex, IndexedEmbeddingRecord
 from models.retrieval import FinderNode
 from plugins_market.core.config import Settings
 from plugins_market.retrieval import index_manager as manager_module
-from retrieval.io.loading import LoadedFinderIndex
+from retrieval.io.loading import CatalogRecord, LoadedFinderIndex
 from retrieval.lexical.bm25 import BM25Document, BM25Finder, BM25FinderConfig
 from retrieval.service.retriever import Retriever
 
@@ -44,8 +44,14 @@ def make_retriever():
         BM25Document(choice_id="c", payload="c", text="hay"),
         BM25Document(choice_id="d", payload="d", text="needle " + "hay " * 60),
     ])
-    loaded = LoadedFinderIndex(index_dir=Path("test-index"), tree_root=FinderNode("ROOT", "ROOT"),
-                               choices=(), catalog_records=(), embedding_index=vectors, bm25_index=bm25)
+    catalog_records = tuple(
+        CatalogRecord(choice_id=cid, payload=cid, metadata={"skill_path": f"s3://test/skills/owner/asset-{cid}/1.0.0/"})
+        for cid in "abcd"
+    )
+    loaded = LoadedFinderIndex(
+        index_dir=Path("test-index"), tree_root=FinderNode("ROOT", "ROOT"), choices=(),
+        catalog_records=catalog_records, embedding_index=vectors, bm25_index=bm25,
+    )
     return Retriever(loaded_index=loaded, embedding_client=client), client
 
 
@@ -53,8 +59,9 @@ class RetrievalLoggingTests(unittest.TestCase):
     def setUp(self):
         self.retriever, self.client = make_retriever()
         self.manager = manager_module.IndexManager()
-        self.manager._retrievers["skill"] = self.retriever
-        self.manager._cid_maps["skill"] = {cid: "asset-" + cid for cid in "abcd"}
+        with patch.object(Retriever, "from_index", return_value=self.retriever):
+            self.manager.load("skill", "test-index")
+        self.assertTrue(self.manager.is_ready("skill"))
 
     def search(self, *, top_k=4, **values):
         settings = configured(**values)
@@ -106,7 +113,9 @@ class RetrievalLoggingTests(unittest.TestCase):
         self.assertEqual(filtered.hits, [])
         self.assertEqual(len(filtered.truncation["score_rejected_samples"]), 10)
         self.assertEqual(filtered.truncation["score_rejected_omitted_count"], 15)
-        matched = BM25Finder(documents=docs, config=BM25FinderConfig(min_query_term_matches=2)).retrieve_top_k(query="needle cat")
+        matched = BM25Finder(
+            documents=docs, config=BM25FinderConfig(min_query_term_matches=2),
+        ).retrieve_top_k(query="needle cat")
         self.assertEqual(matched.truncation["term_match_rejected_count"], 25)
         self.assertEqual(matched.truncation["query_terms"], ["needle", "cat"])
 

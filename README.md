@@ -1,4 +1,4 @@
-# SkillHub
+# openJiuwen Agentic Hub
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-%3E%3D3.11.4-blue.svg)](marketplace/pyproject.toml)
@@ -6,7 +6,7 @@
 
 **Chinese**: [README_zh.md](README_zh.md)
 
-**SkillHub** is an open-source **Skill hosting and distribution** implementation in the openJiuwen ecosystem, intended for self-hosted team deployments.
+**openJiuwen Agentic Hub** is an open-source **Skill hosting and distribution** implementation in the openJiuwen ecosystem, intended for self-hosted team deployments.
 
 **ClawHub compatibility** can be enabled so existing ClawHub-oriented CLIs and tools can integrate (exact routes and semantics follow this codebase).
 
@@ -73,7 +73,7 @@ Use **[swarmskills.openjiuwen.com](https://swarmskills.openjiuwen.com)**.
 
 ### Docker Compose (one command)
 
-Start everything — MySQL, Redis, MinIO, Backend, Frontend — with a single command. No need to install MySQL, Redis, or MinIO locally. Full guide: [Docker one-click deploy](docs/zh/3.%20安装指导/Docker方式安装/SkillHub安装指导-一键部署.md).
+Start everything — MySQL, Redis, MinIO, Backend, Frontend — with a single command. No need to install MySQL, Redis, or MinIO locally. Full guide: [Docker one-click deploy](docs/zh/3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导-一键部署.md).
 
 ```bash
 # repo root
@@ -87,7 +87,7 @@ docker compose -f docker/docker-compose.yml --env-file .env up -d --build
 
 ### Local development (minimal)
 
-You need **MySQL** (DB created upfront), **S3-compatible storage** (e.g. MinIO), and a reachable **auth service**. Full steps (Windows-focused, also useful on Linux/macOS for commands): [Local installation guide](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md).
+You need **MySQL** (DB created upfront), **S3-compatible storage** (e.g. MinIO), and a reachable **auth service**. Full steps (Windows-focused, also useful on Linux/macOS for commands): [Local installation guide](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md).
 
 ```bash
 # repo root
@@ -111,15 +111,15 @@ npm install
 npm run dev
 ```
 
-Dev server defaults to port **9002**. Set **`BACKEND_PORT`** to the backend port exposed by **`STORE_PORT`**. **`BACKEND_URL`** must be an address the frontend process can reach (for local development, normally `127.0.0.1`); it is not the backend bind address **`STORE_HOST`**. See the [install doc §6](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md).
+Dev server defaults to port **9002**. Set **`BACKEND_PORT`** to the backend port exposed by **`STORE_PORT`**. **`BACKEND_URL`** must be an address the frontend process can reach (for local development, normally `127.0.0.1`); it is not the backend bind address **`STORE_HOST`**. See the [install doc §6](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md).
 
 ### Docker
 
-See [Docker install (Windows, Chinese)](docs/zh/3.%20安装指导/Docker方式安装/SkillHub安装指导.md) for backend and frontend image build/run.
+See [Docker install (Windows, Chinese)](docs/zh/3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导.md) for backend and frontend image build/run.
 
 ### API & CLI
 
-- **HTTP API**: [TeamSkillsHub API reference (Chinese)](docs/zh/7.%20API参考/TeamSkillsHub-接口参考.md) · [OpenAPI YAML](docs/zh/7.%20API参考/TeamSkillsHub.md)
+- **HTTP API**: [openJiuwen Agentic Hub API reference (Chinese)](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) · [OpenAPI YAML](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub.md)
 - **CLI**: [`cli/README.md`](cli/README.md)
 
 ### Ecosystem
@@ -143,16 +143,16 @@ See [Docker install (Windows, Chinese)](docs/zh/3.%20安装指导/Docker方式�
 
 | Topic | Link |
 |--------|------|
-| Local install (Windows-focused) | [Installation guide](docs/zh/3.%20安装指导/本地安装/SkillHub安装指导.md) |
-| Docker install | [Docker installation guide](docs/zh/3.%20安装指导/Docker方式安装/SkillHub安装指导.md) |
-| API (OpenAPI) | [TeamSkillsHub.md](docs/zh/7.%20API参考/TeamSkillsHub.md) |
-| API reference (detailed) | [Detailed API reference](docs/zh/7.%20API参考/TeamSkillsHub-接口参考.md) |
+| Local install (Windows-focused) | [Installation guide](docs/zh/3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md) |
+| Docker install | [Docker installation guide](docs/zh/3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导.md) |
+| API (OpenAPI) | [openJiuwen-Agentic-Hub.md](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub.md) |
+| API reference (detailed) | [Detailed API reference](docs/zh/7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) |
 | CLI | [cli/README.md](cli/README.md) |
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
 
 ## Security
 
-If you expose SkillHub on the public internet or untrusted networks, review authentication, storage credentials, system tokens, and compatibility endpoints; use gateways, network policy, and least privilege.
+If you expose openJiuwen Agentic Hub on the public internet or untrusted networks, review authentication, storage credentials, system tokens, and compatibility endpoints; use gateways, network policy, and least privilege.
 
 **Vulnerability reports**: [SECURITY.md](SECURITY.md).
 

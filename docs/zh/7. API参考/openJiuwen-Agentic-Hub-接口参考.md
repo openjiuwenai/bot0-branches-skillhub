@@ -1,8 +1,8 @@
-# TeamSkillsHub API 接口参考
+# openJiuwen Agentic Hub API 接口参考
 
 面向 **Web / CLI / 服务端集成** 的 HTTP API 说明。文首 **端点速查表** 汇总方法、路径、主要参数与鉴权；下文按模块展开请求示例与错误规则。
 
-> **OpenAPI YAML**（Swagger / codegen）：见 [TeamSkillsHub.md](./TeamSkillsHub.md) 文末。
+> **OpenAPI YAML**（Swagger / codegen）：见 [openJiuwen-Agentic-Hub.md](./openJiuwen-Agentic-Hub.md) 文末。
 > **ClawHub 兼容层**详述见 [ClawHub兼容层.md](./ClawHub兼容层.md)。
 
 ---
@@ -125,7 +125,7 @@
 }
 ```
 
-错误响应见 [TeamSkillsHub.md — 全局错误响应](./TeamSkillsHub.md#全局错误响应)。
+错误响应见 [openJiuwen-Agentic-Hub.md — 全局错误响应](./openJiuwen-Agentic-Hub.md#全局错误响应)。
 
 ### 鉴权请求头
 
@@ -184,7 +184,7 @@ OAuth 厂商回调。用 `code` 换取 token，拉取用户信息，写入一次
 | `state` | ✓ | 与 start 时一致 |
 | `error` | | 用户拒绝授权等 |
 
-**失败时** 不返回 JSON，而是 302 到登录页并在 query 中附带 `oauth_error`、`oauth_error_code` 等，详见 [OAuth 回调错误](./TeamSkillsHub.md#oauth-回调重定向错误)。
+**失败时** 不返回 JSON，而是 302 到登录页并在 query 中附带 `oauth_error`、`oauth_error_code` 等，详见 [OAuth 回调错误](./openJiuwen-Agentic-Hub.md#oauth-回调重定向错误)。
 
 ---
 
@@ -1481,7 +1481,7 @@ curl "https://swarmskills.openjiuwen.com/api/v1/skills/{asset_id}"
 
 ## 相关文档
 
-- [TeamSkillsHub.md — 错误码与 OpenAPI YAML](./TeamSkillsHub.md)
+- [openJiuwen-Agentic-Hub.md — 错误码与 OpenAPI YAML](./openJiuwen-Agentic-Hub.md)
 - [ClawHub 兼容层](./ClawHub兼容层.md)
 - [角色与权限（用户视角）](../4.%20用户指南/角色与权限.md)
 

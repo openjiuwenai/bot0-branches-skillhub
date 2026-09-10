@@ -1,6 +1,6 @@
 # Skill 审核机制
 
-SkillHub 通过审核流程控制 Skill 的市场可见性和在线体验准入。
+openJiuwen Agentic Hub 通过审核流程控制 Skill 的市场可见性和在线体验准入。
 
 ## 审核阶段
 
@@ -84,5 +84,5 @@ MARKET_ALLOW_SELF_MODERATION=true
 ## 相关文档
 
 - [角色与权限](../4.%20用户指南/角色与权限.md)
-- [TeamSkillsHub 接口参考](../7.%20API参考/TeamSkillsHub-接口参考.md)
+- [openJiuwen Agentic Hub 接口参考](../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md)
 - [环境配置说明](../4.%20用户指南/环境配置说明.md)

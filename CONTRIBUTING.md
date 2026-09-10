@@ -1,6 +1,6 @@
 # 贡献指南
 
-感谢你对 SkillHub 的关注。欢迎通过 **Issue** 与 **Pull Request** 参与。
+感谢你对 openJiuwen Agentic Hub 的关注。欢迎通过 **Issue** 与 **Pull Request** 参与。
 
 ## 参与方式
 

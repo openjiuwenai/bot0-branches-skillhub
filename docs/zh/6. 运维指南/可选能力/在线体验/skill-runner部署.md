@@ -22,7 +22,7 @@ marketplace 通过反向代理把在线体验请求转发给 skill-runner。skil
 
 ## 部署
 
-请使用 [K8s 安装指导](../../../3.%20安装指导/K8s方式安装/SkillHub安装指导.md) 和仓库中的 [docker/k8s](../../../../../docker/k8s) 清单部署 skill-runner。
+请使用 [K8s 安装指导](../../../3.%20安装指导/K8s方式安装/openJiuwen-Agentic-Hub安装指导.md) 和仓库中的 [docker/k8s](../../../../../docker/k8s) 清单部署 skill-runner。
 
 ## 环境变量注入
 
@@ -90,7 +90,7 @@ docker build -f docker/skill-agent-worker/Dockerfile \
 
 ## 验证步骤
 
-端到端验证（页面出现入口、发送消息有回复）见 [K8s 方式安装指导](../../../3.%20安装指导/K8s方式安装/SkillHub安装指导.md) 第 9.4 节。部署侧检查项：
+端到端验证（页面出现入口、发送消息有回复）见 [K8s 方式安装指导](../../../3.%20安装指导/K8s方式安装/openJiuwen-Agentic-Hub安装指导.md) 第 9.4 节。部署侧检查项：
 
 1. skill-runner Deployment 就绪：`kubectl -n skillhub-system rollout status deployment/skill-runner`
 2. marketplace 能访问 skill-runner：检查 marketplace 日志无连接超时

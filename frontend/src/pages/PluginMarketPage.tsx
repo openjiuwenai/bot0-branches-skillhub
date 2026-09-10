@@ -1549,7 +1549,7 @@ export default function PluginMarketPage() {
           <section className="pb-2 pt-16 sm:pb-4 lg:pt-[112px]">
             <div className="mx-auto max-w-[840px] text-center">
               <h1 className="mx-auto max-w-[800px] text-balance text-[30px] font-semibold leading-[1.4] tracking-normal text-[#191919] sm:text-[36px] lg:text-[40px] lg:leading-[56px]">
-                {t('plugins.marketTitle')} <span className="inline">{t('plugins.marketHeroSuffix')}</span>
+                {t('plugins.marketTitle')}
               </h1>
               <p className="mx-auto mt-4 max-w-[760px] text-pretty text-[14px] leading-[18px] tracking-[0.08em] text-[#595959] sm:text-[16px]">
                 {t('plugins.marketSubtitleLead')}{' '}

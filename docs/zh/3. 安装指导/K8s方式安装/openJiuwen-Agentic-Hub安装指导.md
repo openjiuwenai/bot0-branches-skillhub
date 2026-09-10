@@ -1,8 +1,8 @@
 # K8s 方式安装指导
 
-本文说明如何将 SkillHub 部署到 K8s 集群，包括 marketplace 后端和 frontend 前端；在线体验、审查、语义检索等可选能力见第 9 章。MySQL 和对象存储（MinIO 或华为云 OBS）复用已有服务，不部署在 K8s 集群内，需保证集群内 Pod 网络可达。
+本文说明如何将 openJiuwen Agentic Hub 部署到 K8s 集群，包括 marketplace 后端和 frontend 前端；在线体验、审查、语义检索等可选能力见第 9 章。MySQL 和对象存储（MinIO 或华为云 OBS）复用已有服务，不部署在 K8s 集群内，需保证集群内 Pod 网络可达。
 
-> K8s 方式适合生产和多副本部署。本地试用见 [Docker 一键部署](../Docker方式安装/SkillHub安装指导-一键部署.md)，本地开发见 [本地安装](../本地安装/SkillHub安装指导.md)。
+> K8s 方式适合生产和多副本部署。本地试用见 [Docker 一键部署](../Docker方式安装/openJiuwen-Agentic-Hub安装指导-一键部署.md)，本地开发见 [本地安装](../本地安装/openJiuwen-Agentic-Hub安装指导.md)。
 
 ## 部署流程总览
 
@@ -35,7 +35,7 @@ git clone https://gitcode.com/openJiuwen/skillhub.git
 cd skillhub
 ```
 
-后续命令默认从 **SkillHub 仓库根目录**开始执行。
+后续命令默认从 **openJiuwen Agentic Hub 仓库根目录**开始执行。
 
 ## 3 准备依赖服务和账号
 
@@ -480,7 +480,7 @@ kubectl delete -f docker/k8s/namespace.yaml
 
 | 文档 | 说明 |
 |------|------|
-| [TeamSkillsHub 接口参考](../../7.%20API参考/TeamSkillsHub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
+| [openJiuwen Agentic Hub 接口参考](../../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
 | [推荐系统 API](../../7.%20API参考/推荐系统API.md) | 个性化推荐 HTTP 接口 |
 | [OAuth 登录配置](../../6.%20运维指南/基础部署/OAuth登录配置.md) | GitCode / GitHub OAuth 完整配置 |
 | [故障排查](../../6.%20运维指南/基础部署/故障排查.md) | 更多部署问题排查 |

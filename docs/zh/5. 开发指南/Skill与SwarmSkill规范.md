@@ -1,6 +1,6 @@
 # Skill 与 SwarmSkill 规范
 
-SkillHub 当前重点支持 Skill 和 SwarmSkill 两类 skill-like 资产。两者都以 `SKILL.md` 为核心，SwarmSkill 在此基础上增加多角色协作定义。
+openJiuwen Agentic Hub 当前重点支持 Skill 和 SwarmSkill 两类 skill-like 资产。两者都以 `SKILL.md` 为核心，SwarmSkill 在此基础上增加多角色协作定义。
 
 SwarmSkill 将多智能体协作中的角色分工、任务流程和协作规则沉淀为可复用的团队级技能。概念背景参见[百度百科：SwarmSkills](https://baike.baidu.com/item/SwarmSkills/67869397)。
 

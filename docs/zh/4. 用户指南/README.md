@@ -1,9 +1,9 @@
-# SkillHub 用户指南
+# openJiuwen Agentic Hub 用户指南
 
-本目录面向 **终端用户、创作者与审核管理员**，说明如何在浏览器中使用 SkillHub，以及如何完成 Skill 发布、审核与日常维护。
+本目录面向 **终端用户、创作者与审核管理员**，说明如何在浏览器中使用 openJiuwen Agentic Hub，以及如何完成 Skill 发布、审核与日常维护。
 
-若你负责 **部署与运维**，请参阅 [安装指导](../3.%20安装指导/本地安装/SkillHub安装指导.md) 与 [Docker 方式安装](../3.%20安装指导/Docker方式安装/SkillHub安装指导.md)。
-若你负责 **接口集成或二次开发**，请参阅 [TeamSkillsHub 接口参考](../7.%20API参考/TeamSkillsHub-接口参考.md)、[OpenAPI YAML](../7.%20API参考/TeamSkillsHub.md) 与 [CLI 说明](../../../cli/README.md)。
+若你负责 **部署与运维**，请参阅 [安装指导](../3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md) 与 [Docker 方式安装](../3.%20安装指导/Docker方式安装/openJiuwen-Agentic-Hub安装指导.md)。
+若你负责 **接口集成或二次开发**，请参阅 [openJiuwen Agentic Hub 接口参考](../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md)、[OpenAPI YAML](../7.%20API参考/openJiuwen-Agentic-Hub.md) 与 [CLI 说明](../../../cli/README.md)。
 
 ## 文档索引
 
@@ -29,5 +29,5 @@
 ## 获取帮助
 
 - 使用问题：先查阅 [场景化指引与 FAQ](./场景化指引与FAQ.md)
-- 部署问题：参阅 [安装指导](../3.%20安装指导/本地安装/SkillHub安装指导.md)
+- 部署问题：参阅 [安装指导](../3.%20安装指导/本地安装/openJiuwen-Agentic-Hub安装指导.md)
 - Bug 与功能建议：通过仓库 Issue 反馈（见 [CONTRIBUTING.md](../../../CONTRIBUTING.md)）

@@ -1,6 +1,6 @@
 # 推荐系统
 
-`marketplace/recommender/` 提供 SkillHub 个性化推荐：离线建库 + 在线召回。与 `marketplace/retrieval/`（语义搜索）相互独立，Embedding、向量库、Redis key 均单独配置。
+`marketplace/recommender/` 提供 openJiuwen Agentic Hub 个性化推荐：离线建库 + 在线召回。与 `marketplace/retrieval/`（语义搜索）相互独立，Embedding、向量库、Redis key 均单独配置。
 
 **测试请先读**[运维指南 / 推荐系统](../../6.%20运维指南/可选能力/推荐系统/README.md)里的「启动时会不会自动跑一次？」和「怎么验收」。HTTP 字段见[推荐系统 API](../../7.%20API参考/推荐系统API.md)。下文是实现边界，给改代码和排障用。
 

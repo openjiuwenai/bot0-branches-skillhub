@@ -1,6 +1,6 @@
 # OAuth 登录配置
 
-SkillHub Web 登录支持 GitCode、GitHub 和 AgentOS OAuth。如需使用 Web 登录，至少启用一种；同时启用时，登录页会显示三个入口。浏览公开内容无需配置 OAuth。
+openJiuwen Agentic Hub Web 登录支持 GitCode、GitHub 和 AgentOS OAuth。如需使用 Web 登录，至少启用一种；同时启用时，登录页会显示三个入口。浏览公开内容无需配置 OAuth。
 
 ## 确定访问地址
 
@@ -37,7 +37,7 @@ AgentOS 回调：http://skillhub.local:9002/api/v1/auth/oauth/agentos/callback
 
 1. 登录 GitCode，进入“个人设置 → OAuth 应用”，创建应用。
 2. 填写应用名称、描述和 Logo，将应用主页和回调地址设置为上文对应地址。
-3. 应用权限仅选择“用户”下的“访问你的个人信息、最新动态等”。SkillHub 登录不需要公钥、组织、项目等权限。
+3. 应用权限仅选择“用户”下的“访问你的个人信息、最新动态等”。openJiuwen Agentic Hub 登录不需要公钥、组织、项目等权限。
 
 ![GitCode OAuth 应用配置](../../assets/img/一键部署-GitCode-OAuth应用.png)
 
@@ -58,7 +58,7 @@ GitCode 的授权、换令牌和用户信息接口已有默认值，通常无需
 
 1. 登录 GitHub，依次进入 `Settings → Developer settings → OAuth Apps`。
 2. 点击 `New OAuth App`，填写：
-   - `Application name`：应用名称，例如 `SkillHub Local`。
+   - `Application name`：应用名称，例如 `openJiuwen Agentic Hub Local`。
    - `Homepage URL`：frontend 访问地址，例如 `http://skillhub.local:9002`。
    - `Authorization callback URL`：上文的 GitHub 回调地址。
 3. 注册应用并生成 Client Secret，记录 Client ID 和 Client Secret。
@@ -88,7 +88,7 @@ OAUTH2_ACCESS_TOKEN_EXPIRE_MINUTES=1440
 OAUTH2_FRONTEND_ORIGIN=http://agentos.local:8090
 ```
 
-2. 在`SkillHub`的`.env` 中填写：
+2. 在`openJiuwen Agentic Hub`的`.env` 中填写：
 
 ```ini
 MARKET_AGENTOS_OAUTH_ENABLED=true
@@ -115,7 +115,7 @@ MARKET_REVIEW_ADMIN_USERNAMES=reviewer_login
 
 1. 启动 marketplace 和 frontend。
 2. 打开登录页，选择已启用的 OAuth 提供商。
-3. 授权完成后确认能返回 SkillHub，并进入个人中心。
+3. 授权完成后确认能返回 openJiuwen Agentic Hub，并进入个人中心。
 
 若登录失败，依次检查：
 

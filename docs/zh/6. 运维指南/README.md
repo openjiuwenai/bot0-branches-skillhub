@@ -1,14 +1,14 @@
 # 运维指南
 
-本目录面向 SkillHub 的部署和运维人员。文档按“基础部署”和“可选能力”拆分，避免把在线体验、检索增强、个性化推荐、多实例等可选能力误认为基础部署必需项。
+本目录面向 openJiuwen Agentic Hub 的部署和运维人员。文档按“基础部署”和“可选能力”拆分，避免把在线体验、检索增强、个性化推荐、多实例等可选能力误认为基础部署必需项。
 
 ## 基础部署
 
-基础部署用于把 SkillHub 市场服务跑起来，通常只需要：marketplace、frontend、MySQL、对象存储和鉴权服务。
+基础部署用于把 openJiuwen Agentic Hub 市场服务跑起来，通常只需要：marketplace、frontend、MySQL、对象存储和鉴权服务。
 
 | 文档 | 说明 |
 |---|---|
-| [K8s 完整部署](../3.%20安装指导/K8s方式安装/SkillHub安装指导.md) | marketplace + frontend + skill-runner 全部部署到 K8s |
+| [K8s 完整部署](../3.%20安装指导/K8s方式安装/openJiuwen-Agentic-Hub安装指导.md) | marketplace + frontend + skill-runner 全部部署到 K8s |
 | [对象存储配置](./基础部署/对象存储配置.md) | MinIO / OBS 配置要点 |
 | [数据库迁移](./基础部署/数据库迁移.md) | SQL 脚本和升级注意事项 |
 | [故障排查](./基础部署/故障排查.md) | 基础服务常见问题 |

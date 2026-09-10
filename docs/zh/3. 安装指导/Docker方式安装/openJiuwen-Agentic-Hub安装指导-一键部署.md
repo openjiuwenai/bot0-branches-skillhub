@@ -1,8 +1,8 @@
-# SkillHub 一键部署（Docker Compose）
+# openJiuwen Agentic Hub 一键部署（Docker Compose）
 
-本文说明如何用 Docker Compose 一条命令启动 SkillHub 全套服务：MySQL、Redis、MinIO、Backend、Frontend 五个容器，外加一个自动建 Bucket 的初始化容器。所有依赖都是容器内全新的独立环境，不要求宿主机安装 MySQL、Redis 或 MinIO。步骤以 **Windows / PowerShell** 为例。
+本文说明如何用 Docker Compose 一条命令启动 openJiuwen Agentic Hub 全套服务：MySQL、Redis、MinIO、Backend、Frontend 五个容器，外加一个自动建 Bucket 的初始化容器。所有依赖都是容器内全新的独立环境，不要求宿主机安装 MySQL、Redis 或 MinIO。步骤以 **Windows / PowerShell** 为例。
 
-适用场景：**仅用于开发自验证**（本地快速拉起全套服务试用与联调）。为兼容 Linux（backend 经 host-gateway 访问 MinIO），MinIO S3 API 端口绑定 `0.0.0.0`，请勿在不可信网络环境运行。生产或多副本部署见 [K8s 方式安装指导](../K8s方式安装/SkillHub安装指导.md)。如果宿主机已有 MySQL 或 MinIO 并希望复用，请使用 [Docker 方式安装指导](./SkillHub安装指导.md)。
+适用场景：**仅用于开发自验证**（本地快速拉起全套服务试用与联调）。为兼容 Linux（backend 经 host-gateway 访问 MinIO），MinIO S3 API 端口绑定 `0.0.0.0`，请勿在不可信网络环境运行。生产或多副本部署见 [K8s 方式安装指导](../K8s方式安装/openJiuwen-Agentic-Hub安装指导.md)。如果宿主机已有 MySQL 或 MinIO 并希望复用，请使用 [Docker 方式安装指导](./openJiuwen-Agentic-Hub安装指导.md)。
 
 ## 1 环境要求
 
@@ -20,7 +20,7 @@ git clone https://gitcode.com/openJiuwen/skillhub.git
 cd skillhub
 ```
 
-后续命令默认从 **SkillHub 仓库根目录**开始执行。
+后续命令默认从 **openJiuwen Agentic Hub 仓库根目录**开始执行。
 
 ## 3 准备 OAuth 应用和审核账号
 
@@ -338,9 +338,9 @@ docker compose -f docker/docker-compose.yml --env-file .env down -v
 
 | 文档 | 说明 |
 |------|------|
-| [Docker 方式安装指导](./SkillHub安装指导.md) | 手动构建运行单容器，支持复用宿主机 MySQL / MinIO |
-| [本地安装指导](../本地安装/SkillHub安装指导.md) | 不使用 Docker，直接在本地运行 Python + Node.js |
-| [TeamSkillsHub 接口参考](../../7.%20API参考/TeamSkillsHub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
+| [Docker 方式安装指导](./openJiuwen-Agentic-Hub安装指导.md) | 手动构建运行单容器，支持复用宿主机 MySQL / MinIO |
+| [本地安装指导](../本地安装/openJiuwen-Agentic-Hub安装指导.md) | 不使用 Docker，直接在本地运行 Python + Node.js |
+| [openJiuwen Agentic Hub 接口参考](../../7.%20API参考/openJiuwen-Agentic-Hub-接口参考.md) | **推荐** - 端点总览、curl 示例、可见性规则 |
 | [推荐系统 API](../../7.%20API参考/推荐系统API.md) | 个性化推荐 HTTP 接口 |
 | [OAuth 登录配置](../../6.%20运维指南/基础部署/OAuth登录配置.md) | GitCode / GitHub OAuth 完整配置 |
 | [故障排查](../../6.%20运维指南/基础部署/故障排查.md) | 更多部署问题排查 |

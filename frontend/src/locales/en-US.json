@@ -34,8 +34,7 @@
   },
   "plugins": {
     "title": "Plugin Management",
-    "marketTitle": "Swarm Skills Hub",
-    "marketHeroSuffix": "Your Team Skill Center",
+    "marketTitle": "openJiuwen Agentic Hub",
     "marketSubtitleLead": "Dimension Upgrade · Multi-Intelligence Collaboration,",
     "marketSubtitleTail": "{{typeLabel}} Driving Coordination Engineering Revolution",
     "marketSubtitleCountSuffix": "",
@@ -688,7 +687,7 @@
     }
   },
   "appHeader": {
-    "brand": "SwarmSkillsHub",
+    "brand": "openJiuwen Agentic Hub",
     "publish": "Publish",
     "profile": "Profile",
     "groups": "Groups",
@@ -858,6 +857,6 @@
     "columnDocs": "Docs",
     "columnCommunity": "Community",
     "columnMore": "More",
-    "copyright": "SkillHub / Swarm Skills Hub · Apache License 2.0 · {{year}}"
+    "copyright": "openJiuwen Agentic Hub · Apache License 2.0 · {{year}}"
   }
 }

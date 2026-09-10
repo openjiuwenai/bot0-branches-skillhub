@@ -17,7 +17,7 @@ skill-name/
 
 ## 发布步骤
 
-1. 登录 SkillHub。
+1. 登录 openJiuwen Agentic Hub。
 2. 点击发布入口（右上角「+ 发布」，打开发布抽屉）。
 3. 选择 Skill 类型，按下表填写字段。
 4. 上传 PNG 图标和 Skill 目录。

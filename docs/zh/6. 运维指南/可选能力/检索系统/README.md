@@ -37,6 +37,26 @@
 - 定时重建任务。
 - 多实例索引热加载通知。
 
+## 根据日志调整阈值
+
+检索日志使用 INFO 级别，查看后端标准输出或 `logs/app.log`（目录由 `INTERFACE_LOG_DIR` 指定），
+按 `retrieval_` 搜索，再用 `request_id` 关联同一次请求，无需开启 DEBUG。
+
+| 关键字 | 内容 |
+|--------|------|
+| `retrieval_params` | 搜索词、top_k、模型、生效的绝对/相对阈值、BM25 最少命中词数和两路权重 |
+| `retrieval_stage` | 两路各自的命中分数、过滤统计、实际分数门槛和被过滤分数样本 |
+| `retrieval_result` | 融合后的排序、两路排名、融合得分、资产 ID 和检索耗时 |
+
+`effective_min_score` 是生效的分数下限，最高分为正时等于 `max(绝对阈值, best_score × 相对阈值)`，
+未设置的条件不参与计算。`score_filter_removed_count` 是分数过滤数量，`top_k_removed_count` 是通过分数过滤但超出返回窗口的数量。
+`truncation.reason` 表示决定截断位置的条件；结合 `score_rejected_samples` 的分数判断阈值是否过高。
+被过滤的分数样本固定取最高的 10 条，剩余数量见 `score_rejected_omitted_count`；向量统计范围仅限先召回的 top_k。
+BM25 的 `term_match_rejected_count` 表示正分候选因命中查询词数不足而被剔除。
+
+`retrieval_result` 是业务筛选前的检索结果；后续仍可查看已有的 `retrieval path:` 和 `retrieval no hits after filter:` 日志。
+修改阈值或权重后需重启后端，无需重建索引；Docker Compose 修改 `.env` 后需要重新创建后端容器以读取新环境变量。
+
 ## 配置边界
 
 检索相关配置仍保留在 `.env.example` 中，因为它属于 marketplace 的可选增强能力，不需要独立运行时服务；但文档中应明确未启用时可留空或使用降级策略。

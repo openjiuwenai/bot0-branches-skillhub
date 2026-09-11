@@ -32,15 +32,17 @@ openJiuwen Agentic Hub 市场除 Skill / SwarmSkill 外，支持三类 JiuwenSwa
 
 ## Hub 校验原则
 
-Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**：
+Hub 只做**包结构与安全**校验，运行时文件是否齐留给 JiuwenSwarm：
 
 | 项 | Hub 行为 |
 |----|----------|
 | `README.md` | 可选；有则作为详情 `detail_desc` |
-| 专家/专家团 `persona` | 可选；声明则校验目录内存在 `.md` |
-| 内层 `skills/` | 仅校验 manifest 声明路径存在 `SKILL.md`，**不校验** SKILL frontmatter |
+| `persona` / `skills[]` / `tools[]` / `rails[]` / `memories[]` / `rubrics[]` / `mcps[]` / `model` / `subagents[]` | 声明时只检查形态与路径安全（禁止 `..`、绝对路径）；**不因文件缺失拒发**，不校验 SKILL frontmatter / JSON 内容 |
 | 插件能力 | **不要求**至少一种能力组件 |
 | 连接器 | **必须**有 `manifest.json`；**拒绝**无 manifest 的旧包（仅 `mcp.json` 等） |
+| 连接器 `integration.file` | `stdio-mcp` / `remote-mcp` / `cli` 仍须存在，且 type 与 `mcp.json` / `cli.json` 内容一致 |
+| 图标 | 声明但文件不存在则跳过；文件存在且作为市场图标时须为合法 PNG |
+| 仍拦截 | 危险命令/脚本；插件禁止根字段 `persona` / `agent_card` / `model` / `subagents` / `memories` / `rubrics`；token 凭据 schema 与占位符 |
 
 ## 发布与审核
 
@@ -59,7 +61,7 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 
 **必填：** `version`、`package_type`、`id`（须等于 `plugin.yaml.name`）
 
-**可选能力（声明则文件须存在）：** `skills[]`、`tools[]`、`rails[]`、`mcps[]`
+**可选能力：** `skills[]`、`tools[]`、`rails[]`、`mcps[]`（Hub 不因声明文件缺失拒发）
 
 **禁止根字段：** `persona`、`agent_card`、`model`、`subagents`、`memories`、`rubrics`
 
@@ -82,7 +84,7 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 
 **必填：** `version`、`package_type`、`name`（须等于 `plugin.yaml.name`）、`description`
 
-**可选（声明则文件须存在）：** `persona`、`skills[]`、`tools[]`、`rails[]`、`memories[]`、`rubrics[]`、`model`、`subagents[]`、`mcps[]`
+**可选：** `persona`、`skills[]`、`tools[]`、`rails[]`、`memories[]`、`rubrics[]`、`model`、`subagents[]`、`mcps[]`（Hub 不因声明文件缺失拒发）
 
 ```json
 {
@@ -95,9 +97,8 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 }
 ```
 
-- `persona`：可选；声明时 `persona/` 下至少一个 `.md`。
-- `model.file`：指向的 JSON 顶层须含 `model` 字段。
-- `subagents[].dir`：目录内至少一个 `.subagent.json`（合法 JSON 对象）。
+- `persona`：可选；声明时只检查 `dir` 路径安全，不要求目录内有 `.md`。
+- `model.file` / `subagents[].dir`：有则检查路径安全；Hub 不读 JSON、不要求 `.subagent.json`。
 
 ## 连接器（`package_type: mcp`）
 
@@ -110,9 +111,9 @@ Hub 只做**包结构与安全**校验，**不比 JiuwenSwarm 运行时更严**�
 | `stdio-mcp` | `integration.file` → `mcp.json`（含 `command`） |
 | `remote-mcp` | `integration.file` → `mcp.json`（含 `url`） |
 | `cli` | `integration.file` → `cli.json` |
-| `skill-only` | 至少一个 `skills/**/SKILL.md`（可通过 `skills[]` 或包内平铺声明） |
+| `skill-only` | 无 `integration.file`；不强制包内存在 `SKILL.md` |
 
-**可选：** `credentials`（`token` 须指向 `token-schema.json`）、`skills[]`、`icon`（PNG，如 `icon.png`）
+**可选：** `credentials`（`token` 须指向已存在的 `token-schema.json`）、`skills[]`（不因缺 `SKILL.md` 拒发）、`icon`（PNG；文件不存在则跳过）
 
 ```json
 {

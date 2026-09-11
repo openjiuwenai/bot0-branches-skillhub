@@ -310,57 +310,18 @@ def _validate_market_fields(display_name: str, short_desc: str, tags: list[str])
             _invalid(f"内层 manifest.tags[{index}] 派生值不得超过 {PLUGIN_TAG_MAX_LEN} 个字符")
 
 
-def _validate_declared_skills(
-    zf: zipfile.ZipFile,
-    members: dict[str, str],
-    payload_prefix: str,
-    skills: Any,
-    counter: DecompressCounter,
-) -> int:
+def _validate_declared_skills(skills: Any) -> None:
+    """只校验 skills 数组形态与路径安全，不因缺少 SKILL.md 拒发。"""
     if skills is None:
-        return 0
+        return
     if not isinstance(skills, list):
         _invalid("manifest.skills 必须为数组")
-    count = 0
     for index, item in enumerate(skills):
         if not isinstance(item, dict):
             _invalid(f"manifest.skills[{index}] 必须为对象")
-        relative = _safe_relative_path(item.get("dir"), f"skills[{index}].dir")
-        skill_name = posixpath.basename(relative.rstrip("/"))
-        skill_path = f"{payload_prefix}{relative}/SKILL.md"
-        flat_path = f"{payload_prefix}{relative.rstrip('/')}"
-        if relative.rstrip("/").endswith("SKILL.md") or relative == "SKILL.md":
-            _invalid(f"manifest.skills[{index}].dir 应指向 Skill 目录而非 SKILL.md 文件")
-        original = members.get(skill_path)
-        if original is None and flat_path.endswith("/SKILL.md"):
-            original = members.get(flat_path)
-        if original is None and relative == "skills":
-            flat_skill = f"{payload_prefix}skills/SKILL.md"
-            original = members.get(flat_skill)
-            if original is not None:
-                skill_path = flat_skill
-                skill_name = "skills"
-        if original is None:
-            _invalid(f"manifest.skills[{index}] 声明的目录缺少 SKILL.md：{relative}")
-        count += 1
-    return count
-
-
-def _count_skill_only_md(
-    members: dict[str, str],
-    payload_prefix: str,
-) -> int:
-    count = 0
-    for normalized in members:
-        if not normalized.startswith(payload_prefix) or not normalized.endswith("/SKILL.md"):
-            continue
-        relative = normalized[len(payload_prefix):]
-        parts = relative.split("/")
-        is_flat = parts == ["skills", "SKILL.md"]
-        is_nested = len(parts) == 3 and parts[0] == "skills" and parts[-1] == "SKILL.md"
-        if is_flat or is_nested:
-            count += 1
-    return count
+        raw_dir = item.get("dir")
+        if isinstance(raw_dir, str) and raw_dir.strip():
+            _safe_relative_path(raw_dir, f"skills[{index}].dir")
 
 
 def _validate_payload_scripts(
@@ -472,16 +433,15 @@ def validate_agent_mcp_layout(
         icon_relative = _safe_relative_path(icon_field, "icon")
         icon_member = f"{payload_prefix}{icon_relative}"
         if not _member_exists(members, icon_member):
-            _invalid(f"manifest.icon 指向的文件不存在：{icon_relative}")
-        if not icon_relative.lower().endswith(".png"):
+            pass
+        elif not icon_relative.lower().endswith(".png"):
             _invalid("manifest.icon 必须为 PNG 文件（.png 后缀）")
-        raw_icon = safe_read_zip_member(zf, members[icon_member], counter)
-        validate_png_icon_bytes(raw_icon, path=icon_member)
-        icon_bytes = raw_icon
+        else:
+            raw_icon = safe_read_zip_member(zf, members[icon_member], counter)
+            validate_png_icon_bytes(raw_icon, path=icon_member)
+            icon_bytes = raw_icon
 
-    skill_count = _validate_declared_skills(
-        zf, members, payload_prefix, manifest.get("skills"), counter
-    )
+    _validate_declared_skills(manifest.get("skills"))
 
     mcp_data: dict[str, Any] | None = None
     cli_data: dict[str, Any] | None = None
@@ -517,11 +477,6 @@ def validate_agent_mcp_layout(
         )
         _validate_cli(cli_data)
         placeholders.update(_collect_placeholders(cli_data))
-    elif integration_type == "skill-only":
-        if skill_count == 0:
-            skill_count = _count_skill_only_md(members, payload_prefix)
-        if skill_count < 1:
-            _invalid("skill-only MCP 至少必须包含一个 skills/**/SKILL.md")
 
     if placeholders and credentials_type != "cli-oauth":
         missing = sorted(placeholders - token_schema_keys)

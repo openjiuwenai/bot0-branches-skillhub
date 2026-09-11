@@ -87,17 +87,6 @@ def _member_exists(members: dict[str, str], path: str) -> bool:
     return original is not None and not original.replace("\\", "/").endswith("/")
 
 
-def _directory_has_file(members: dict[str, str], path: str, suffix: str | None = None) -> bool:
-    prefix = path.rstrip("/") + "/"
-    for member in members:
-        if members[member].replace("\\", "/").endswith("/"):
-            continue
-        if member.startswith(prefix) and member != prefix:
-            if suffix is None or member.lower().endswith(suffix.lower()):
-                return True
-    return False
-
-
 def _read_manifest(
     zf: zipfile.ZipFile,
     original_path: str,
@@ -141,53 +130,21 @@ def _validate_market_fields(display_name: str, short_desc: str, tags: list[str])
             )
 
 
-def _validate_declared_skills(
-    members: dict[str, str],
-    payload_prefix: str,
-    skills: Any,
-    *,
-    error: str,
-) -> None:
-    """校验 manifest 声明的 skill 目录存在 SKILL.md（不校验 frontmatter 内容）。"""
+def _validate_declared_skills(skills: Any, *, error: str) -> None:
+    """只校验 skills 数组形态与路径安全，不因缺少 SKILL.md 拒发。"""
     if skills is None:
         return
     if not isinstance(skills, list):
         _invalid(error, "manifest.skills 必须为数组")
-    if not skills:
-        return
     for index, item in enumerate(skills):
         if not isinstance(item, dict):
             _invalid(error, f"manifest.skills[{index}] 必须为对象")
-        relative = _safe_relative_path(item.get("dir"), f"skills[{index}].dir", error=error)
-        if relative.rstrip("/").endswith("SKILL.md") or relative == "SKILL.md":
-            _invalid(error, f"manifest.skills[{index}].dir 应指向 Skill 目录而非 SKILL.md 文件")
-        if not _skill_md_exists(members, payload_prefix, relative):
-            _invalid(error, f"manifest.skills[{index}] 声明的目录缺少 SKILL.md：{relative}")
+        raw_dir = item.get("dir")
+        if isinstance(raw_dir, str) and raw_dir.strip():
+            _safe_relative_path(raw_dir, f"skills[{index}].dir", error=error)
 
 
-def _skill_md_exists(
-    members: dict[str, str],
-    payload_prefix: str,
-    relative: str,
-) -> bool:
-    skill_path = f"{payload_prefix}{relative}/SKILL.md"
-    if _member_exists(members, skill_path):
-        return True
-    flat_path = f"{payload_prefix}{relative.rstrip('/')}"
-    if flat_path.endswith("/SKILL.md") and _member_exists(members, flat_path):
-        return True
-    if relative == "skills" and _member_exists(members, f"{payload_prefix}skills/SKILL.md"):
-        return True
-    return False
-
-
-def _validate_declared_mcp_entries(
-    members: dict[str, str],
-    payload_prefix: str,
-    manifest: dict[str, Any],
-    *,
-    error: str,
-) -> None:
+def _validate_declared_mcp_entries(manifest: dict[str, Any], *, error: str) -> None:
     entries = manifest.get("mcps")
     if entries is None:
         return
@@ -201,64 +158,25 @@ def _validate_declared_mcp_entries(
             continue
         file_path = item.get("file")
         if isinstance(file_path, str) and file_path.strip():
-            relative = _safe_relative_path(
-                file_path, f"mcps[{index}].file", error=error
-            )
-            if not _member_exists(members, f"{payload_prefix}{relative}"):
-                _invalid(
-                    error,
-                    f"manifest.mcps[{index}] 声明的文件不存在：{relative}",
-                )
+            _safe_relative_path(file_path, f"mcps[{index}].file", error=error)
             continue
         dir_path = item.get("dir")
         if isinstance(dir_path, str) and dir_path.strip():
-            relative = _safe_relative_path(
-                dir_path, f"mcps[{index}].dir", error=error
-            ).rstrip("/")
-            dir_prefix = f"{payload_prefix}{relative}/"
-            found = False
-            for config_name in ("mcp.json", "mcps.json", "mcps.yaml"):
-                if _member_exists(members, f"{dir_prefix}{config_name}"):
-                    found = True
-                    break
-            if not found:
-                _invalid(
-                    error,
-                    f"manifest.mcps[{index}] 声明的目录缺少 mcp.json、mcps.json 或 mcps.yaml："
-                    f"{relative}",
-                )
+            _safe_relative_path(dir_path, f"mcps[{index}].dir", error=error)
 
 
-def _validate_declared_model_file(
-    zf: zipfile.ZipFile,
-    members: dict[str, str],
-    payload_prefix: str,
-    manifest: dict[str, Any],
-    counter: DecompressCounter,
-    *,
-    error: str,
-) -> None:
+def _validate_declared_model_file(manifest: dict[str, Any], *, error: str) -> None:
     model = manifest.get("model")
     if model is None:
         return
     if not isinstance(model, dict):
         _invalid(error, "manifest.model 必须为对象")
-    relative = _safe_relative_path(model.get("file"), "model.file", error=error)
-    member_path = f"{payload_prefix}{relative}"
-    if not _member_exists(members, member_path):
-        _invalid(error, f"manifest.model.file 指向的文件不存在：{relative}")
-    raw = safe_read_zip_member(zf, members[member_path], counter)
-    try:
-        parsed = json.loads(raw.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        _invalid(error, f"model.json 不是合法 JSON：{exc}")
-    if not isinstance(parsed, dict) or "model" not in parsed:
-        _invalid(error, "model.json 顶层必须包含 model 字段")
+    file_path = model.get("file")
+    if isinstance(file_path, str) and file_path.strip():
+        _safe_relative_path(file_path, "model.file", error=error)
 
 
 def _validate_declared_file_arrays(
-    members: dict[str, str],
-    payload_prefix: str,
     manifest: dict[str, Any],
     fields: tuple[str, ...],
     *,
@@ -273,22 +191,12 @@ def _validate_declared_file_arrays(
         for index, item in enumerate(entries):
             if not isinstance(item, dict):
                 _invalid(error, f"manifest.{field}[{index}] 必须为对象")
-            relative = _safe_relative_path(
-                item.get("file"), f"{field}[{index}].file", error=error
-            )
-            if not _member_exists(members, f"{payload_prefix}{relative}"):
-                _invalid(error, f"manifest.{field}[{index}] 声明的文件不存在：{relative}")
+            raw_file = item.get("file")
+            if isinstance(raw_file, str) and raw_file.strip():
+                _safe_relative_path(raw_file, f"{field}[{index}].file", error=error)
 
 
-def _validate_declared_subagents(
-    zf: zipfile.ZipFile,
-    members: dict[str, str],
-    payload_prefix: str,
-    entries: Any,
-    counter: DecompressCounter,
-    *,
-    error: str,
-) -> None:
+def _validate_declared_subagents(entries: Any, *, error: str) -> None:
     if entries is None:
         return
     if not isinstance(entries, list):
@@ -296,66 +204,20 @@ def _validate_declared_subagents(
     for index, item in enumerate(entries):
         if not isinstance(item, dict):
             _invalid(error, f"manifest.subagents[{index}] 必须为对象")
-        relative = _safe_relative_path(
-            item.get("dir"), f"subagents[{index}].dir", error=error
-        )
-        dir_prefix = f"{payload_prefix}{relative}".rstrip("/") + "/"
-        subagent_files: list[str] = []
-        for member_path in members:
-            if (
-                member_path.startswith(dir_prefix)
-                and member_path.endswith(".subagent.json")
-                and not members[member_path].replace("\\", "/").endswith("/")
-            ):
-                subagent_files.append(member_path)
-        subagent_files.sort()
-        if not subagent_files:
-            _invalid(
-                error,
-                f"manifest.subagents[{index}] 声明的目录缺少 .subagent.json：{relative}",
-            )
-        for member_path in subagent_files:
-            raw = safe_read_zip_member(zf, members[member_path], counter)
-            try:
-                parsed = json.loads(raw.decode("utf-8"))
-            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-                _invalid(
-                    error,
-                    f"manifest.subagents[{index}] 的 .subagent.json 不是合法 JSON："
-                    f"{relative}（{exc}）",
-                )
-            if not isinstance(parsed, dict):
-                _invalid(
-                    error,
-                    f"manifest.subagents[{index}] 的 .subagent.json 根结构必须为对象：{relative}",
-                )
+        raw_dir = item.get("dir")
+        if isinstance(raw_dir, str) and raw_dir.strip():
+            _safe_relative_path(raw_dir, f"subagents[{index}].dir", error=error)
 
 
-def _validate_agent_plugin_capabilities(
-    zf: zipfile.ZipFile,
-    members: dict[str, str],
-    payload_prefix: str,
-    manifest: dict[str, Any],
-    counter: DecompressCounter,
-) -> None:
+def _validate_agent_plugin_capabilities(manifest: dict[str, Any]) -> None:
     error = "invalid_agent_plugin_capability"
     for forbidden in ("persona", "agent_card", "model", "subagents", "memories", "rubrics"):
         if forbidden in manifest:
             _invalid(error, f"agent-plugin 根 manifest 不允许声明 {forbidden}")
 
-    _validate_declared_skills(
-        members, payload_prefix, manifest.get("skills"), error=error
-    )
-    _validate_declared_file_arrays(
-        members,
-        payload_prefix,
-        manifest,
-        ("tools", "rails"),
-        error=error,
-    )
-    _validate_declared_mcp_entries(
-        members, payload_prefix, manifest, error=error
-    )
+    _validate_declared_skills(manifest.get("skills"), error=error)
+    _validate_declared_file_arrays(manifest, ("tools", "rails"), error=error)
+    _validate_declared_mcp_entries(manifest, error=error)
 
 
 @dataclass(frozen=True)
@@ -415,9 +277,7 @@ def validate_agent_asset_layout(
                 "agent_plugin_identity_mismatch",
                 f"manifest.id {identity!r} 必须与 plugin.yaml.name {asset_name!r} 一致",
             )
-        _validate_agent_plugin_capabilities(
-            zf, members, payload_prefix, manifest, counter
-        )
+        _validate_agent_plugin_capabilities(manifest)
         display_name = localized_manifest_text(
             manifest.get("display_name")
         ) or localized_manifest_text(manifest.get("name"))
@@ -439,37 +299,21 @@ def validate_agent_asset_layout(
         if persona is not None:
             if not isinstance(persona, dict):
                 _invalid("missing_persona", "manifest.persona 必须为对象")
-            persona_dir = _safe_relative_path(
-                persona.get("dir"), "persona.dir", error="missing_persona"
-            )
-            if not _directory_has_file(members, f"{payload_prefix}{persona_dir}", ".md"):
-                _invalid("missing_persona", "persona 目录必须至少包含一个 .md 文件")
-        _validate_declared_skills(
-            members,
-            payload_prefix,
-            manifest.get("skills"),
-            error="invalid_skill_md",
-        )
+            raw_persona_dir = persona.get("dir")
+            if isinstance(raw_persona_dir, str) and raw_persona_dir.strip():
+                _safe_relative_path(
+                    raw_persona_dir, "persona.dir", error="missing_persona"
+                )
+        _validate_declared_skills(manifest.get("skills"), error="invalid_skill_md")
         _validate_declared_file_arrays(
-            members,
-            payload_prefix,
             manifest,
             ("tools", "rails", "memories", "rubrics"),
             error="invalid_manifest_json",
         )
-        _validate_declared_mcp_entries(
-            members, payload_prefix, manifest, error="invalid_manifest_json"
-        )
-        _validate_declared_model_file(
-            zf, members, payload_prefix, manifest, counter, error="invalid_manifest_json"
-        )
+        _validate_declared_mcp_entries(manifest, error="invalid_manifest_json")
+        _validate_declared_model_file(manifest, error="invalid_manifest_json")
         _validate_declared_subagents(
-            zf,
-            members,
-            payload_prefix,
-            manifest.get("subagents"),
-            counter,
-            error="invalid_manifest_json",
+            manifest.get("subagents"), error="invalid_manifest_json"
         )
         display_name = (
             localized_manifest_text(manifest.get("display_name")) or identity
@@ -497,9 +341,7 @@ def validate_agent_asset_layout(
         if isinstance(avatar, str) and avatar.strip():
             avatar_path = _safe_relative_path(avatar, "avatar", error=manifest_error)
             avatar_member = f"{payload_prefix}{avatar_path}"
-            if not _member_exists(members, avatar_member):
-                _invalid(manifest_error, f"manifest.avatar 指向的文件不存在：{avatar_path}")
-            if avatar_path.lower().endswith(".png"):
+            if _member_exists(members, avatar_member) and avatar_path.lower().endswith(".png"):
                 raw_icon = safe_read_zip_member(zf, members[avatar_member], counter)
                 validate_png_icon_bytes(raw_icon, path=avatar_member)
                 icon_bytes = raw_icon

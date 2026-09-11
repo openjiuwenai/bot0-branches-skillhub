@@ -13,6 +13,7 @@
 
 ### Changed
 
+- Agent 三类资产（插件 / 连接器 / 专家）发布：manifest 声明的 `skills`、`tools`、`persona` 等缺失文件不再拒发；Hub 只做包结构、路径安全与危险内容扫描，运行时齐套留给 JiuwenSwarm
 - 产品展示名与文档由 SwarmSkillsHub / SkillHub / TeamSkillsHub 统一为 **openJiuwen Agentic Hub**（仓库目录、Docker/K8s 内部名、`swarmskill` 类型与官方域名暂不改）
 - 官方托管域名由 `teamskills.openjiuwen.com` 更名为 `swarmskills.openjiuwen.com`（文档与默认市场地址已同步）
 - 市场与发布展示名：`agent-plugin` 为**插件**、`agent-mcp` 为**连接器**、`agent-template` 为**专家/专家团**（Tab / 发布类型顺序：插件、连接器、专家/专家团）；发布成功提示按所选类型显示

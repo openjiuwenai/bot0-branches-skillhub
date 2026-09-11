@@ -172,7 +172,7 @@ def test_agent_template_allows_empty_skills_array() -> None:
     assert result["asset_type"] == "agent-template"
 
 
-def test_agent_template_rejects_invalid_non_first_skill() -> None:
+def test_agent_template_allows_declared_skill_without_skill_md() -> None:
     content = _build_wrapped_zip(
         "coach",
         "agent-template",
@@ -190,10 +190,20 @@ def test_agent_template_rejects_invalid_non_first_skill() -> None:
             ),
         },
     )
-    with pytest.raises(PublishError) as exc_info:
-        _validate_template(content, "coach")
-    assert exc_info.value.detail["error"] == "invalid_skill_md"
-    assert "缺少 SKILL.md" in exc_info.value.detail["message"]
+    result = _validate_template(content, "coach")
+    assert result["asset_type"] == "agent-template"
+
+
+def test_agent_template_allows_persona_dir_without_md() -> None:
+    content = _build_wrapped_zip(
+        "coach",
+        "agent-template",
+        {
+            "manifest.json": _template_manifest(),
+        },
+    )
+    result = _validate_template(content, "coach")
+    assert result["asset_type"] == "agent-template"
 
 
 def test_agent_template_allows_undeclared_on_disk_skill() -> None:
@@ -211,7 +221,7 @@ def test_agent_template_allows_undeclared_on_disk_skill() -> None:
     assert result["asset_type"] == "agent-template"
 
 
-def test_agent_template_rejects_invalid_subagent_json() -> None:
+def test_agent_template_allows_invalid_subagent_json() -> None:
     content = _build_wrapped_zip(
         "coach",
         "agent-template",
@@ -224,12 +234,11 @@ def test_agent_template_rejects_invalid_subagent_json() -> None:
             "subagents/nutrition-planner/.subagent.json": "{invalid-json",
         },
     )
-    with pytest.raises(PublishError) as exc_info:
-        _validate_template(content, "coach")
-    assert exc_info.value.detail["error"] == "invalid_manifest_json"
+    result = _validate_template(content, "coach")
+    assert result["asset_type"] == "agent-template"
 
 
-def test_agent_template_rejects_subagent_json_non_object_root() -> None:
+def test_agent_template_allows_subagent_json_non_object_root() -> None:
     content = _build_wrapped_zip(
         "coach",
         "agent-template",
@@ -242,10 +251,23 @@ def test_agent_template_rejects_subagent_json_non_object_root() -> None:
             "subagents/nutrition-planner/.subagent.json": "[]",
         },
     )
-    with pytest.raises(PublishError) as exc_info:
-        _validate_template(content, "coach")
-    assert exc_info.value.detail["error"] == "invalid_manifest_json"
-    assert "根结构必须为对象" in exc_info.value.detail["message"]
+    result = _validate_template(content, "coach")
+    assert result["asset_type"] == "agent-template"
+
+
+def test_agent_plugin_allows_declared_skill_and_tool_without_files() -> None:
+    content = _build_wrapped_zip(
+        "wellness-plugin",
+        "agent-plugin",
+        {
+            "manifest.json": _plugin_manifest(
+                skills=[{"dir": "skills/foo", "mode": "all"}],
+                tools=[{"file": "tools/missing.py"}],
+            ),
+        },
+    )
+    result = _validate_plugin(content, "wellness-plugin")
+    assert result["asset_type"] == "agent-plugin"
 
 
 def test_agent_plugin_accepts_mcp_connector_only() -> None:
@@ -381,6 +403,64 @@ def test_agent_mcp_accepts_manifest_remote() -> None:
     result = _validate_mcp(content, "amap")
     assert result["asset_type"] == "agent-mcp"
     assert result["integration_type"] == "remote-mcp"
+
+
+def test_agent_mcp_allows_declared_skills_without_skill_md() -> None:
+    content = _build_wrapped_zip(
+        "feishu",
+        "agent-mcp",
+        {
+            "manifest.json": _mcp_manifest(
+                "feishu",
+                integration={"type": "cli", "file": "cli.json"},
+                credentials={"type": "cli-oauth"},
+                skills=[{"dir": "skillless", "mode": "all"}],
+            ),
+            "cli.json": json.dumps(
+                {
+                    "init": {"darwin": "echo", "linux": "echo", "win32": "echo"},
+                    "versionCheck": {
+                        "command": {"darwin": "echo", "linux": "echo", "win32": "echo"},
+                        "minVersion": "1.0.0",
+                    },
+                    "status": {"darwin": "echo", "linux": "echo", "win32": "echo"},
+                    "statusMatch": "ok",
+                }
+            ),
+        },
+    )
+    result = _validate_mcp(content, "feishu")
+    assert result["asset_type"] == "agent-mcp"
+    assert result["integration_type"] == "cli"
+
+
+def test_agent_mcp_skill_only_allows_without_skill_md() -> None:
+    content = _build_wrapped_zip(
+        "skill-pack",
+        "agent-mcp",
+        {
+            "manifest.json": _mcp_manifest(
+                "skill-pack",
+                integration={"type": "skill-only"},
+            ),
+        },
+    )
+    result = _validate_mcp(content, "skill-pack")
+    assert result["asset_type"] == "agent-mcp"
+    assert result["integration_type"] == "skill-only"
+
+
+def test_agent_mcp_allows_missing_icon_file() -> None:
+    content = _build_wrapped_zip(
+        "amap",
+        "agent-mcp",
+        {
+            "manifest.json": _mcp_manifest("amap", icon="icon.png"),
+            "mcp.json": _remote_mcp_json(),
+        },
+    )
+    result = _validate_mcp(content, "amap")
+    assert result["icon_bytes"] == b""
 
 
 def test_agent_mcp_rejects_dangerous_second_server() -> None:
@@ -595,7 +675,7 @@ def test_agent_template_non_png_avatar_does_not_set_icon_bytes() -> None:
     assert result["icon_bytes"] == b""
 
 
-def test_agent_template_rejects_missing_avatar_file() -> None:
+def test_agent_template_allows_missing_avatar_file() -> None:
     content = _build_wrapped_zip(
         "coach",
         "agent-template",
@@ -604,9 +684,8 @@ def test_agent_template_rejects_missing_avatar_file() -> None:
             "persona/coach.md": "# Persona",
         },
     )
-    with pytest.raises(PublishError) as exc_info:
-        _validate_template(content, "coach")
-    assert "manifest.avatar" in exc_info.value.detail["message"]
+    result = _validate_template(content, "coach")
+    assert result["icon_bytes"] == b""
 
 
 def test_agent_template_rejects_invalid_avatar_png() -> None:
